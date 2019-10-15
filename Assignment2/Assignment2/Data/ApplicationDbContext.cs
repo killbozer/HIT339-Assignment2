@@ -9,11 +9,15 @@ namespace Assignment2.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {    }
+
         public virtual DbSet<Coach> Coach { get; set; }
         public virtual DbSet<Schedule> Schedule { get; set; }
         public virtual DbSet<ScheduleMembers> ScheduleMembers { get; set; }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
     }
 }
