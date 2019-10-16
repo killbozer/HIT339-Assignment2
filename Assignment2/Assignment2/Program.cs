@@ -14,7 +14,28 @@ namespace Assignment2
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var serviceProvdier = services.GetRequiredService<IServiceProvider>();
+                    var configuration = services.GetRequiredService<IConfiguration>();
+                    Roles.CreateRoles(serviceProvdier, configuration).Wait();
+
+                }
+                catch (Exception exception)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(exception, "An error occured when trying to create roles");
+                }
+
+            }
+
+            host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
