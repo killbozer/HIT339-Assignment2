@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Assignment2.Data;
 using Assignment2.Models;
 
 namespace Assignment2
 {
+
+    [Authorize(Roles = "Member, Coach, Admin")]
     public class SchedulesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -44,6 +47,7 @@ namespace Assignment2
         }
 
         // GET: Schedules/Create
+        [Authorize (Roles = "Coach, Admin")]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +70,7 @@ namespace Assignment2
         }
 
         // GET: Schedules/Edit/5
+        [Authorize(Roles = "Coach, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -117,6 +122,7 @@ namespace Assignment2
         }
 
         // GET: Schedules/Delete/5
+        [Authorize(Roles = "Coach, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
