@@ -34,6 +34,10 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a asp-area="" asp-controller="Schedules" asp-action="Index">Schedule</a></li>
+                    @if (User.IsInRole("Coach"))
+                    { 
+                    <li><a asp-area="" asp-controller="Schedules" asp-action="MySchedule">Upcoming Schedule</a></li>
+                    }
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

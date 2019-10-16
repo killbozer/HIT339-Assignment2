@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Assignment2.Data;
@@ -16,9 +18,11 @@ namespace Assignment2
     public class SchedulesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public SchedulesController(ApplicationDbContext context)
+        public SchedulesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -26,6 +30,17 @@ namespace Assignment2
         public async Task<IActionResult> Index()
         {
             return View(await _context.Schedule.ToListAsync());
+        }
+
+        [Authorize (Roles = "Coach")]
+        public ActionResult MySchedule()
+        {
+            // get the username of the person logged in (which is the same as the email they used to register)
+            var coach = _userManager.GetUserName(User);
+            var schedule = _context.Schedule.Where(m => m.CoachEmail == coach);
+            // only return entries that have the same email as the person logged in
+            return View("Index", schedule);
+
         }
 
         // GET: Schedules/Details/5
@@ -47,7 +62,7 @@ namespace Assignment2
         }
 
         // GET: Schedules/Create
-        [Authorize (Roles = "Coach, Admin")]
+        [Authorize (Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -70,7 +85,7 @@ namespace Assignment2
         }
 
         // GET: Schedules/Edit/5
-        [Authorize(Roles = "Coach, Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,7 +137,7 @@ namespace Assignment2
         }
 
         // GET: Schedules/Delete/5
-        [Authorize(Roles = "Coach, Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
