@@ -72,6 +72,9 @@ namespace Assignment2.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // makes a newly registered user automatically a member
+                    await _userManager.AddToRoleAsync(user, "Member");
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",

@@ -32,16 +32,46 @@ namespace Assignment2
             return View(await _context.Schedule.ToListAsync());
         }
 
-        [Authorize (Roles = "Coach")]
-        public ActionResult MySchedule()
+
+
+        public async Task<IActionResult> Enrol(int? id)
         {
-            // get the username of the person logged in (which is the same as the email they used to register)
-            var coach = _userManager.GetUserName(User);
-            var schedule = _context.Schedule.Where(m => m.CoachEmail == coach);
-            // only return entries that have the same email as the person logged in
-            return View("Index", schedule);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var schedule = await _context.Schedule.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (schedule == null)
+            {
+                return NotFound();
+            }
+
+            return View(schedule);                              
+        }
+
+        [HttpPost, ActionName("Enrol")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnrolConfirmed(int id, [Bind("ScheduleId,MemberEmail")] ScheduleMembers member)
+        {
+            var newMember = await _context.Schedule.FindAsync(id);
+
+            // prevent user for signing up to event that has already happened
+            if (newMember.When < DateTime.Now)
+            {
+                return NotFound();
+            }
+
+            _context.Add(member);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
 
         }
+
+        
 
         // GET: Schedules/Details/5
         public async Task<IActionResult> Details(int? id)

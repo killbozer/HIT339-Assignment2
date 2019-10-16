@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Assignment2.Models.ScheduleMembers>
+
+@{
+    ViewData["Title"] = "MySchedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MySchedule</h2>
+
+@foreach (var items in Model)
+{    
+<p>@Html.DisplayFor(modelItem => items.MemberEmail)</p>
+}
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
