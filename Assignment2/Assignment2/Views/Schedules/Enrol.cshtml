@@ -1,11 +1,11 @@
 ﻿@model Assignment2.Models.Schedule
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Enrol";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Enrol</h2>
 
 <div>
     <h4>Schedule</h4>
@@ -36,6 +36,12 @@
             @Html.DisplayFor(model => model.Location)
         </dd>
     </dl>
+
+    <form asp-action="Enrol">
+        <input type="hidden" asp-for="Id" name="ScheduleId" />
+        <input type="submit" value="Enrol" class="btn btn-default" />
+    </form>
+            
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

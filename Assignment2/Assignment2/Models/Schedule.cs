@@ -7,10 +7,6 @@ namespace Assignment2.Models
 {
     public partial class Schedule
     {
-        public Schedule()
-        {
-            ScheduleMembers = new HashSet<ScheduleMembers>();
-        }
 
         [Column("ID")]
         public int Id { get; set; }
@@ -19,7 +15,5 @@ namespace Assignment2.Models
         public string CoachEmail { get; set; }
         public string Location { get; set; }
 
-        [InverseProperty("Schedule")]
-        public ICollection<ScheduleMembers> ScheduleMembers { get; set; }
     }
 }

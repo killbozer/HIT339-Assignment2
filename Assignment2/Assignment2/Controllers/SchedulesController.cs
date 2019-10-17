@@ -53,21 +53,26 @@ namespace Assignment2
 
         [HttpPost, ActionName("Enrol")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnrolConfirmed(int id, [Bind("ScheduleId,MemberEmail")] ScheduleMembers member)
+        public async Task<IActionResult> EnrolConfirmed(int id, [Bind("ScheduleId")] ScheduleMembers member)
         {
             var newMember = await _context.Schedule.FindAsync(id);
 
             // prevent user for signing up to event that has already happened
-            if (newMember.When < DateTime.Now)
+            if (newMember.When > DateTime.Now)
             {
-                return NotFound();
+
+                member.ScheduleId = newMember.Id;
+                member.MemberEmail = _userManager.GetUserName(User);
+
+                _context.Add(member);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+
             }
 
-            _context.Add(member);
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+            return View(newMember);
 
         }
 

@@ -13,8 +13,6 @@ namespace Assignment2.Models
         public int ScheduleId { get; set; }
         public string MemberEmail { get; set; }
 
-        [ForeignKey("ScheduleId")]
-        [InverseProperty("ScheduleMembers")]
-        public Schedule Schedule { get; set; }
+
     }
 }
