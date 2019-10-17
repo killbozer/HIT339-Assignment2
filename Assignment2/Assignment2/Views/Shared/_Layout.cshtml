@@ -30,14 +30,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Schedules" asp-action="Index">Schedule</a></li>
+
                     @if (User.IsInRole("Member"))
                     {
+                        <li><a asp-area="" asp-controller="Schedules" asp-action="Index">Schedule</a></li>
                         <li><a asp-area="" asp-controller="Coaches" asp-action="Index">All Coaches</a></li>
                     }
                     @if (User.IsInRole("Coach"))
                     {
-                        
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="MyCoach">My Profile</a></li>
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="MySchedule">Upcoming Schedules</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />

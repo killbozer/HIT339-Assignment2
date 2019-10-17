@@ -26,7 +26,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -35,9 +36,14 @@
                 @Html.DisplayFor(modelItem => item.Biography)
             </td>
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.PhotoUrl)" alt="Image of Coach"/>
+                <img src="@Html.DisplayFor(modelItem => item.PhotoUrl)" alt="Image of Coach" />
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
             </td>
         </tr>
-}
+
+            
+        }
     </tbody>
 </table>

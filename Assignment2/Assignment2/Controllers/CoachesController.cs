@@ -29,6 +29,16 @@ namespace Assignment2
             return View(await _context.Coach.ToListAsync());
         }
 
+        public ActionResult MyCoach()
+        {
+
+            var coach = _userManager.GetUserName(User);
+            var myCoach = _context.Coach.Where(m => m.Email == coach);
+
+            return View("Index", myCoach);
+
+        }
+
         
         [Authorize(Roles = "Coach")]
         public ActionResult MySchedule()
@@ -51,6 +61,62 @@ namespace Assignment2
             var member = _context.ScheduleMembers.Where(m => m.ScheduleId == id);
 
             return View("Schedule", member);
+        }
+
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var coach = await _context.Coach.FindAsync(id);
+            if (coach == null)
+            {
+                return NotFound();
+            }
+            return View(coach);
+        }
+
+        // POST: Schedules/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Email, Biography, PhotoUrl")] Coach coach)
+        {
+            if (id != coach.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(coach);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CoachExists(coach.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(MyCoach));
+            }
+            return View(coach);
+        }
+
+        private bool CoachExists(int id)
+        {
+            return _context.Coach.Any(e => e.Id == id);
         }
 
     }
