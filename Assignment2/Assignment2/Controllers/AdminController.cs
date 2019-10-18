@@ -22,6 +22,7 @@ namespace Assignment2.Controllers
              
         }
 
+        [Authorize (Roles = "Admin")]
         public async Task<ActionResult> Members()
         {
 

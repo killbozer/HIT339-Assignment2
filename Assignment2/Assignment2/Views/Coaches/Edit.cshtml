@@ -41,7 +41,14 @@
 </div>
 
 <div>
-    <a asp-action="MyCoach">Back to List</a>
+    @if (User.IsInRole("Coach"))
+    {
+        <a asp-action="MyCoach">Back to List</a>
+    }
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Index">Back to List</a>
+    }
 </div>
 
 @section Scripts {
