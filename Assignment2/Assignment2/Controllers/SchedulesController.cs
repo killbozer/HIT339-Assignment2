@@ -100,6 +100,26 @@ namespace Assignment2
         [Authorize (Roles = "Admin")]
         public IActionResult Create()
         {
+
+            var coaches =  _context.Coach.ToList();
+            // create a list of all the coaches in the model
+            List<SelectListItem> emails = new List<SelectListItem>();
+
+            foreach (var item in coaches)
+            {
+                // create a new list item with the coaches email as the id and the text the user selects
+                emails.Add(new SelectListItem
+                {
+                    Text = item.Email,
+                    Value = item.Email
+
+                });
+
+            }
+
+            //give it to the view
+            ViewBag.CoachEmail = emails;
+
             return View();
         }
 
@@ -110,6 +130,8 @@ namespace Assignment2
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,When,Description,CoachEmail,Location")] Schedule schedule)
         {
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(schedule);

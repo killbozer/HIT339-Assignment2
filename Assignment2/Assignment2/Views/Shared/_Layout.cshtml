@@ -41,6 +41,13 @@
                         <li><a asp-area="" asp-controller="Coaches" asp-action="MyCoach">My Profile</a></li>
                         <li><a asp-area="" asp-controller="Coaches" asp-action="MySchedule">Upcoming Schedules</a></li>
                     }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Schedules" asp-action="Index">Schedule</a></li>
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="Index">All Coaches</a></li>
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Members">All Members</a></li>
+
+                    }
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

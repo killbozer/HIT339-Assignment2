@@ -39,8 +39,11 @@
                 <img src="@Html.DisplayFor(modelItem => item.PhotoUrl)" alt="Image of Coach" />
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-            </td>
+                @if (User.IsInRole("Coach, Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                }
+                </td>
         </tr>
 
             

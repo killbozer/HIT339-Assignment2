@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Assignment2.Models.ScheduleMembers>
+
+@{
+    ViewData["Title"] = "Members";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Members</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberEmail)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberEmail)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
