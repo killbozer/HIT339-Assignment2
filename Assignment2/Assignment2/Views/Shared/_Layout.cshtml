@@ -44,6 +44,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="Schedules" asp-action="Index">Schedule</a></li>
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="AllSchedule">Enrolled Members Schedule</a></li>
                         <li><a asp-area="" asp-controller="Coaches" asp-action="Index">All Coaches</a></li>
                         <li><a asp-area="" asp-controller="Admin" asp-action="Members">All Members</a></li>
 

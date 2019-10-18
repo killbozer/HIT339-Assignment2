@@ -36,7 +36,7 @@
                 @Html.DisplayFor(modelItem => item.Biography)
             </td>
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.PhotoUrl)" alt="Image of Coach" />
+                <img width='250' height='300' src="@Html.DisplayFor(modelItem => item.PhotoUrl)" alt="Image of Coach" />
             </td>
             <td>
                 @if (User.IsInRole("Coach, Admin"))

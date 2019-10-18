@@ -29,6 +29,7 @@ namespace Assignment2
             return View(await _context.Coach.ToListAsync());
         }
 
+        [Authorize(Roles = "Coach")]
         public ActionResult MyCoach()
         {
 
@@ -39,7 +40,15 @@ namespace Assignment2
 
         }
 
-        
+        [Authorize(Roles ="Admin")]
+        public ActionResult AllSchedule()
+        {
+            var schedules = _context.Schedule.ToList();
+
+            return View("MySchedule", schedules);
+
+        }
+
         [Authorize(Roles = "Coach")]
         public ActionResult MySchedule()
         {
